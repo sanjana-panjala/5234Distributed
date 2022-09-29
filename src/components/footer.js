@@ -1,4 +1,4 @@
-
+import React from "react";
 import Footer from 'rc-footer';
 import 'rc-footer/assets/index.css'; // import 'rc-footer/asssets/index.less';
 import './footer.css'
@@ -13,7 +13,7 @@ const SampleFooter = () => (
       title: 'contact us',
       items: [
         {
-          title: 'adress',
+          title: 'address',
           url: 'https://ceo/',
           openExternal: true,
         },
