@@ -5,9 +5,8 @@ const purchase = () => {
     const [order, setOrder] = useState({buyQuantity: [0,0,0,0,0], credit_card_number: '',
         expir_date: '', cvvCode: '', card_holder_name: '', address_1: '', address_2: '', city: '',
         state: '', zip: '',});
-
     const handleSubmit = (e) => {
-        navigate('/purchase/paymentEntry', {state: {order: order, setOrder: setOrder}})
+        navigate('/purchase/paymentEntry', { state: {order: order} })
     };
     const navigate = useNavigate();
     console.log(order)
