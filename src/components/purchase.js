@@ -6,7 +6,9 @@ const purchase = () => {
         expir_date: '', cvvCode: '', card_holder_name: '', address_1: '', address_2: '', city: '',
         state: '', zip: '',});
 
-    const handleSubmit = (e) => {navigate('/purchase/paymentEntry', {order: order, setOrder: setOrder})};
+    const handleSubmit = (e) => {
+        navigate('/purchase/paymentEntry', {state: {order: order, setOrder: setOrder}})
+    };
     const navigate = useNavigate();
     console.log(order)
     return <div>
@@ -14,14 +16,12 @@ const purchase = () => {
             <label>Cheesecake Danish</label>
             <input
                 type="number"
-                required
                 onChange={(e) => {order.buyQuantity[0] = e.target.value;}}
             />
             <br />
             <label>Strawberry Danish</label>
             <input
                 type="number"
-                required
                 onChange={(e) => {order.buyQuantity[1] = e.target.value;}}
             />
             <br />
@@ -36,14 +36,14 @@ const purchase = () => {
             <input
                 type="number"
                 required
-                onChange={(e) => {order.buyQuantity[0] = e.target.value;}}
+                onChange={(e) => {order.buyQuantity[3] = e.target.value;}}
             />
             <br />
             <label>Peach Danish</label>
             <input
                 type="number"
                 required
-                onChange={(e) => {order.buyQuantity[0] = e.target.value;}}
+                onChange={(e) => {order.buyQuantity[4] = e.target.value;}}
             />
             <button className="button">Pay</button>
         </form>
