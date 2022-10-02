@@ -6,7 +6,10 @@ const purchase = () => {
         expir_date: '', cvvCode: '', card_holder_name: '', address_1: '', address_2: '', city: '',
         state: '', zip: '',});
 
-    const handleSubmit = (e) => {navigate('/purchase/paymentEntry', {order: order, setOrder: setOrder})};
+    const handleSubmit = (e) => {
+        navigate('/purchase/paymentEntry', { state: {order: order} })
+    };
+
     const navigate = useNavigate();
     console.log(order)
     return <div>
