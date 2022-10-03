@@ -7,7 +7,7 @@ const purchase = () => {
         expir_date: '', cvvCode: '', card_holder_name: '', address_1: '', address_2: '', city: '',
         state: '', zip: '', expedited: false, email: '',});
     const handleSubmit = (e) => {
-        navigate('/purchase/paymentEntry', { state: {order: order} })
+        navigate('/purchase/shippingEntry', { state: {order: order} })
     };
     const items = [{img: "/Cheesecake-Danish.jpg", title: "Cheesecake Danish",
         description: "This delicious breakfast pastry features a classic flaky Danish pastry crust filled with" +
