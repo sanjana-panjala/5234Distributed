@@ -7,33 +7,55 @@ function NavBar() {
 
   const handleClick = () => setClick(!click);
   return (
-    <>
-      <nav className="navbar">
-        <div className="nav-container">
-          <NavLink exact to="/" className="nav-logo">
-            Distributed Danishes
-            <i className="fas fa-code"></i>
-          </NavLink>
+      <>
+        <nav className="navbar">
+          <div className="nav-container">
+            <NavLink exact to="/" className="nav-logo">
+              Distributed Danishes
+              <i className="fas fa-code"></i>
+            </NavLink>
 
-          <ul className={click ? "nav-menu active" : "nav-menu"}>
-            <li className="nav-item">
-              <NavLink
-                exact
-                to="/purchase"
-                activeClassName="active"
-                className="nav-links"
-                onClick={handleClick}
-              >
-                Purchase
-              </NavLink>
-            </li>
-          </ul>
-          <div className="nav-icon" onClick={handleClick}>
-            <i className={click ? "fas fa-times" : "fas fa-bars"}></i>
+            <ul className={click ? "nav-menu active" : "nav-menu"}>
+              <li className="nav-item">
+                <NavLink
+                    exact
+                    to="/home"
+                    activeClassName="active"
+                    className="nav-links"
+                    onClick={handleClick}
+                >
+                  Home
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink
+                    exact
+                    to="/about"
+                    activeClassName="active"
+                    className="nav-links"
+                    onClick={handleClick}
+                >
+                  About
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink
+                    exact
+                    to="/purchase"
+                    activeClassName="active"
+                    className="nav-links"
+                    onClick={handleClick}
+                >
+                  Purchase
+                </NavLink>
+              </li>
+            </ul>
+            <div className="nav-icon" onClick={handleClick}>
+              <i className={click ? "fas fa-times" : "fas fa-bars"}></i>
+            </div>
           </div>
-        </div>
-      </nav>
-    </>
+        </nav>
+      </>
   );
 }
 

@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Button, Card, CardGroup, Col, Row} from 'react-bootstrap';
+import {Button, Card, Col, Row} from 'react-bootstrap';
 import {useNavigate} from "react-router-dom";
 
 const purchase = () => {
@@ -9,17 +9,17 @@ const purchase = () => {
     const handleSubmit = (e) => {
         navigate('/purchase/shippingEntry', { state: {order: order} })
     };
-    const items = [{img: "/Cheesecake-Danish.jpg", title: "Cheesecake Danish",
+    const items = [{img: "/Cheesecake-Danish.jpg", title: "Cheesecake Danish\t$1",
         description: "This delicious breakfast pastry features a classic flaky Danish pastry crust filled with" +
             " cream cheese and topped with a drizzle of icing for savory-sweet taste in every bite."},
-        {img: "/Strawberry-Danish.jpg", title: "Strawberry Danish",
+        {img: "/Strawberry-Danish.jpg", title: "Strawberry\tDanish $1",
             description: "These Danish rolls are made with a croissant dough shaped into coils," +
                 " filled with fresh strawberries, and drizzled with a hot glaze"},
-        {img: "/Apple-Danish.jpg", title: "Apple Danish", description: "A pastry that combines layers of buttery, flaky," +
+        {img: "/Apple-Danish.jpg", title: "Apple Danish\t$1", description: "A pastry that combines layers of buttery, flaky," +
                 " yeast-leavened dough with apple filling drizzled with a powdered sugar icing."},
-        {img: "/Cherry-Danish.jpg", title: "Cherry Danish", description: "This fruity, fun breakfast danish" +
+        {img: "/Cherry-Danish.jpg", title: "Cherry Danish\t$1", description: "This fruity, fun breakfast danish" +
                 " has layers of cream cheese, cherry pie filling and  a crumble topping."},
-        {img: "/Peach-Danish.jpg", title: "Peach Danish", description: "A danish with ripe peach and milky custard on top." +
+        {img: "/Peach-Danish.jpg", title: "Peach Danish\t$1", description: "A danish with ripe peach and milky custard on top." +
                 ", the blend of the sweetness of fruit and cream makes a rich, irresistible treat"}]
     const navigate = useNavigate();
     console.log(order)
