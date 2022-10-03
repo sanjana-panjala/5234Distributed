@@ -1,4 +1,3 @@
-import { render } from "@testing-library/react";
 import React from "react";
 import {useNavigate, useLocation} from "react-router-dom";
 
@@ -11,8 +10,7 @@ const viewOrder = () => {
         navigate('/purchase/viewConfirmation')
     };
 
-    render()
-    {
+
 	    return (
 	        <div>
 	            <form onSubmit={handleSubmit}>
@@ -57,7 +55,6 @@ const viewOrder = () => {
 	            </form>
 	        </div>
 	    );
-    };
 }
 
 export default viewOrder;
