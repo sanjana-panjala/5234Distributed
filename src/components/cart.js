@@ -10,7 +10,7 @@ const Cart = () => {
         {id: 3, img: "/Apple-Danish.jpg", title: "Apple Danish", price: "1", quantity: 0, description: "A pastry that combines layers of buttery, flaky, yeast-leavened dough with apple filling drizzled with a powdered sugar icing."},
         {id: 4, img: "/Cherry-Danish.jpg", title: "Cherry Danish", price: "1", quantity: 0, description: "This fruity, fun breakfast danish has layers of cream cheese, cherry pie filling and  a crumble topping."},
         {id: 5, img: "/Peach-Danish.jpg", title: "Peach Danish", price: "1", quantity: 0, description: "A danish with ripe peach and milky custard on top. The blend of the sweetness of fruit and cream makes a rich, irresistible treat"}]
-    const [added, setAdded] = useState(sessionStorage.getItem("cart").split(",").map(Number));
+    const [added, setAdded] = useState(sessionStorage.getItem("cart") ? sessionStorage.getItem("cart").split(",").map(Number) : []);
     const [order, setOrder] = useState({buyQuantity: [0,0,0,0,0], credit_card_number: '',
         expir_date: '', cvvCode: '', card_holder_name: '', address_1: '', address_2: '', city: '',
         state: '', zip: '', expedited: false, email: '',});

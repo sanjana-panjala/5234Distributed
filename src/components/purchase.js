@@ -5,7 +5,7 @@ const purchase = () => {
     const [order, setOrder] = useState({buyQuantity: [0,0,0,0,0], credit_card_number: '',
         expir_date: '', cvvCode: '', card_holder_name: '', address_1: '', address_2: '', city: '',
         state: '', zip: '', expedited: false, email: '',});
-    const [added, setAdded] = useState(sessionStorage.getItem("cart").split(",").map(Number));
+    const [added, setAdded] = useState(sessionStorage.getItem("cart") ? sessionStorage.getItem("cart").split(",").map(Number) : []);
     const handleClickAdd = (e) => {
         setAdded(added.concat([e.id]))
         console.log(added)
