@@ -10,11 +10,12 @@ import ViewConfirmation from './components/viewConfirmation';
 import Home from './components/home';
 import About from './components/about';
 import Cart from './components/cart';
+import Contact from './components/contact';
 import PaymentEntry from "./components/paymentEntry";
+import Footer from "./components/footer";
 
 
 function App() {
-
 
   return (
       <div className="App">
@@ -32,8 +33,11 @@ function App() {
               <Route path='/purchase/shippingEntry' element={<ShippingEntry/>} />
               <Route path='/purchase/viewOrder' element={<ViewOrder/>} />
               <Route path='/purchase/viewConfirmation' element={<ViewConfirmation/>} />
+
+              <Route path='/contact' element={<Contact/>} />
             </Routes>
           </div>
+          <Footer/>
         </Router>
       </div>
   );

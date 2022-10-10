@@ -1,73 +1,34 @@
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
+import { useNavigate } from 'react-router-dom';
 import React from "react";
-import Footer from 'rc-footer';
-import 'rc-footer/assets/index.css'; // import 'rc-footer/asssets/index.less';
-import './footer.css'
 
-const SampleFooter = () => ( 
-  
-  <Footer  className='footer'
-  onClick
-  autoFocus
-  columns={[
-    {
-      title: 'contact us',
-      items: [
-        {
-          title: 'address',
-          url: 'https://ceo/',
-          openExternal: true,
-        },
-        {
-          title: 'email',
-          url: 'https://ceo/',
-          openExternal: true,
-        },
-        {
-          title: 'phone',
-          url: 'https://ceo/',
-          openExternal: true,
-        },
-      ],
-    },
-    {
-      icon: (
-        <img
-          src="https://gw.alipayobjects.com/zos/rmsportal/nBVXkrFdWHxbZlmMbsaH.svg"
-          alt="more products"
-        />
-      ),
-      title: 'more info',
-      items: [
-        {
-          icon: (
-            <img
-              src="https://gw.alipayobjects.com/zos/rmsportal/XuVpGqBFxXplzvLjJBZB.svg"
-              alt="yuque"
-            />
-          ),
-          title: 'cse5234',
-          url: 'https://com',
-          description: 'cse5234',
-          openExternal: true,
-        },
-        {
-          icon: (
-            <img
-              src="https://gw.alipayobjects.com/zos/rmsportal/uHocHZfNWZOdsRUonZNr.png"
-              alt="yuque"
-            />
-          ),
-          title: 'cse5234',
-          url: 'https://com',
-          description: 'cse5234',
-          openExternal: true,
-        },
-      ],
-    },
-  ]}
-/>
+function Footer() {
 
-);
+  const navigate = useNavigate();
+  const handleClick = () => {
+      navigate('/contact');
+  };
 
+  return (
+    <Card bg="dark" text="light" style={ {width:'100%', position:'bottom'} }>
+      <Card.Body>
+        <Card.Text>
+          <p>All ingredients are ethically sourced and prepared with the utmost care!</p>
+          <p>If for any reason you are not satisfied with your purchase, contact us below.</p>
+        </Card.Text>
+        <Card.Footer>
+          <Button 
+            variant="outline-light"
+            onClick={ handleClick }
+          >
+            Contact us
+          </Button>
+        </Card.Footer>
+      </Card.Body>
+    </Card>
+  );
 
-export default () => <SampleFooter />;
+}
+
+export default Footer;
