@@ -1,5 +1,6 @@
 import React from "react";
 import {useNavigate, useLocation} from "react-router-dom";
+import 'materialize-css';
 
 const shippingEntry = () => {
     const location = useLocation();
@@ -11,66 +12,86 @@ const shippingEntry = () => {
     };
 
     return (
-        <div>
+        <div class = "row">
             <h1>
-                shipping entry page
+                Enter Shipping Information
             </h1>
-
-
-            <form onSubmit={handleSubmit}>
-                <label>Address 1:</label>
-                <input
-                    type="text"
-                    required
-                    onChange={
+            <form class = "col s12"
+                onSubmit={handleSubmit}>
+                <div className="input-field col s6">
+                    <label>Address 1:</label>
+                    <input
+                        type="text"
+                        required
+                        onChange={
                         (e) => {{location.state.order.address_1 = e.target.value;}}
-                    }
-                />
-                <br />
-                <label>Address 2:</label>
-                <input
-                    type="text"
-                    required
-                    onChange={(e) => {{location.state.order.address_2 = e.target.value;}}}
-                />
-                <br />
+                        }
+                    />
+                </div>
+
+                <div className="input-field col s6">
+                    <label>Address 2:</label>
+                    <input
+                        type="text"
+                        required
+                        onChange={
+                            (e) => {{location.state.order.address_2 = e.target.value;}}
+                        }
+                    />
+                </div>
+
+                <div class = "input-field col s12">
                 <label>City:</label>
                 <input
                     type="text"
                     required
                     onChange={(e) => {{location.state.order.city = e.target.value;}}}
                 />
-                <br />
+                </div>
+
+                <div className="input-field col s12">
                 <label>State:</label>
                 <input
                     type="text"
                     required
                     onChange={(e) => {{location.state.order.state = e.target.value;}}}
                 />
-                <br />
+                </div>
+
+                <div className="input-field col s12">
                 <label>Zip:</label>
                 <input
                     type="text"
                     required
                     onChange={(e) => {{location.state.order.zip = e.target.value;}}}
                 />
-                <br />
-                <label>Confirm Email:</label>
+                </div>
+
+                <div className="input-field col s12">
+                <label>Email:</label>
                 <input
                     type="text"
                     required
+                    onChange={(e) => {{location.state.order.email = e.target.value;}}}
 
                 />
-                <br />
-                <label>Expedited</label>
-                <input
-                    type="checkbox"
-                    required
-                    onChange={(e) => {{location.state.order.expedited = true}}}
+                </div>
 
-                />
-                <br />
-                <button className="button">View Order</button>
+                <p>
+                    <label>
+                        <input type="checkbox"
+                               onChange={(e) => {{location.state.order.expedited = true}}}
+
+                        />
+                        <span>Expedited</span>
+                    </label>
+                </p>
+
+
+
+                <button className="btn waves-effect waves-light" type="View Order" name="action">View Order
+                    <i className="material-icons right">send</i>
+                </button>
 
 
 
