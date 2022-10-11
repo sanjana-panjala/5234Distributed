@@ -20,7 +20,10 @@ function App() {
   return (
       <div className="App">
         <Router>
-          <Navbar />
+          <header>
+            <Navbar />
+          </header>
+          <body>
           <div className="content">
             <Routes>
               <Route path='/home' element={<Home/>} />
@@ -37,6 +40,7 @@ function App() {
               <Route path='/contact' element={<Contact/>} />
             </Routes>
           </div>
+          </body>
           <Footer/>
         </Router>
       </div>
