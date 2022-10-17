@@ -1,10 +1,13 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import data from "bootstrap/js/src/dom/data";
+import axios from "axios";
 
 const purchase = () => {
     const [order, setOrder] = useState({buyQuantity: [0,0,0,0,0], credit_card_number: '',
         expir_date: '', cvvCode: '', card_holder_name: '', address_1: '', address_2: '', city: '',
         state: '', zip: '', expedited: false, email: '',});
+    const [items, setItems] = useState([]);
     const [added, setAdded] = useState(sessionStorage.getItem("cart") ? sessionStorage.getItem("cart").split(",").map(Number) : []);
     const handleClickAdd = (e) => {
         setAdded(added.concat([e.id]))
@@ -17,13 +20,15 @@ const purchase = () => {
         console.log(added)
         sessionStorage.setItem("cart", added.filter(i => i !== e.id).toString())
     };
-    const items = [{id: 1, img: "/Cheesecake-Danish.jpg", title: "Cheesecake Danish", price: "1", quantity: 0,
-        description: "This delicious breakfast pastry features a classic flaky Danish pastry crust filled with cream cheese and topped with a drizzle of icing for savory-sweet taste in every bite."},
-        {id: 2, img: "/Strawberry-Danish.jpg", title: "Strawberry Danish", price: "1", quantity: 0,
-            description: "These Danish rolls are made with a croissant dough shaped into coils, filled with fresh strawberries, and drizzled with a hot glaze"},
-        {id: 3, img: "/Apple-Danish.jpg", title: "Apple Danish", price: "1", quantity: 0, description: "A pastry that combines layers of buttery, flaky, yeast-leavened dough with apple filling drizzled with a powdered sugar icing."},
-        {id: 4, img: "/Cherry-Danish.jpg", title: "Cherry Danish", price: "1", quantity: 0, description: "This fruity, fun breakfast danish has layers of cream cheese, cherry pie filling and  a crumble topping."},
-        {id: 5, img: "/Peach-Danish.jpg", title: "Peach Danish", price: "1", quantity: 0, description: "A danish with ripe peach and milky custard on top. The blend of the sweetness of fruit and cream makes a rich, irresistible treat"}]
+    useEffect(() => {
+        axios.get("http://localhost:7000/get_item", {
+            params:[]
+        }).then((data) => {
+            console.log(data);
+            setItems(data.data)
+        });
+    }, [])
+
     const navigate = useNavigate();
     console.log(order)
     return <div className="container">
