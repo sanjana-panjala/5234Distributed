@@ -14,14 +14,21 @@ const About = () => {
 
         <div class="row text-center">
           <div class="col-xl-3 col-sm-6 mb-5">
-            <div class="bg-white rounded shadow-sm py-5 px-4"><img src="https://bootstrapious.com/i/snippets/sn-about/avatar-4.png" alt="" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm" />
-              <h5 class="mb-0">Manuella Nevoresky</h5><span class="small text-uppercase text-muted">CEO - Founder</span>
+            <div class="bg-white rounded shadow-sm py-5 px-4"><img src="/Arvind-Picture.jpg" alt="" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm" />
+              <h5 class="mb-0">Arvind Kumar</h5><span class="small text-uppercase text-muted">Chief Financial Officer</span>
+              <p>Arvind is responsible for managing the finances for Distributed Danishes. He recently completed his MBA from
+              The Ohio State University. He has been working on the team since 2021.</p>
             </div>
           </div>
 
-          <div class="col-xl-3 col-sm-6 mb-5">
-            <div class="bg-white rounded shadow-sm py-5 px-4"><img src="https://bootstrapious.com/i/snippets/sn-about/avatar-3.png" alt="" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm" />
-              <h5 class="mb-0">Samuel Hardy</h5><span class="small text-uppercase text-muted">CEO - Founder</span>
+          <div className="col-xl-3 col-sm-6 mb-5">
+            <div className="bg-white rounded shadow-sm py-5 px-4"><img
+                src="https://i.ibb.co/3mbBqsT/02023-EAC-DE92-4-DFD-88-BF-E356-B1-F9-B3-D1-1-201-a.jpg" alt=""
+                width="100" className="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm"/>
+              <h5 className="mb-0">Sanjana Panjala</h5><span className="small text text-muted">Head Baker</span>
+              <p>Sanj is responsible for creating and tweaking our danish recipes. She's currently completing her
+                masters in Food Science at The Ohio State University. She has been part of Distributed Danishes since
+                2020 and never gets tired of baking!</p>
             </div>
           </div>
 
