@@ -34,14 +34,15 @@ const About = () => {
 
           <div class="col-xl-3 col-sm-6 mb-5">
             <div class="bg-white rounded shadow-sm py-5 px-4"><img src="/Mohith-Picture.png" alt="" width="125" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm" />
-              <h5 class="mb-0">Mohith Kankanala</h5><span class="small text-uppercase text-muted">CHIEF TECHNOLOGY OFFICER</span>
+              <h5 class="mb-0">Mohith Kankanala</h5><span class="small text-uppercase text-muted">Chief Technology Officer</span>
               <p> Mohith is responsible for managing the technological requirements of Distributed Danishes. He integrates new technology trends and ensures that it meets the needs of the company. He recently got his MBA from The Ohio State University. He has been working on the team since 2021.</p>
             </div>
           </div>
 
           <div class="col-xl-3 col-sm-6 mb-5">
-            <div class="bg-white rounded shadow-sm py-5 px-4"><img src="https://bootstrapious.com/i/snippets/sn-about/avatar-1.png" alt="" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm" />
-              <h5 class="mb-0">John Tarly</h5><span class="small text-uppercase text-muted">CEO - Founder</span>
+            <div class="bg-white rounded shadow-sm py-5 px-4"><img src="/Ryan-Picture.jpg" alt="" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm" />
+              <h5 class="mb-0">Ryan Baxter</h5><span class="small text-uppercase text-muted">Chief Information Security Officer</span>
+              <p>Ryan is responsible for establishing and maintaining the enterprise vision, strategy, and program to ensure information assests and technologies are protected. He recently got his MBA from The Ohio State University. He has been working on the team since 2021.</p>
             </div>
           </div>
 
