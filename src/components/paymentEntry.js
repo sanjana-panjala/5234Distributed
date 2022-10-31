@@ -1,10 +1,9 @@
-import React, {useState} from "react";
-import {useLocation}from 'react-router-dom'
-import purchase from "./purchase";
-import {useNavigate} from "react-router-dom";
-import "./paymentEntry.css";
+import React from "react";
+import purchase from "./purchase"
+import {useNavigate, useLocation} from "react-router-dom";
+import 'materialize-css';
 
-const PaymentEntry = () => {
+const paymentEntry = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -15,74 +14,97 @@ const PaymentEntry = () => {
 
     const sum = parseInt(location.state.order.buyQuantity[0]) + parseInt(location.state.order.buyQuantity[1]) + parseInt(location.state.order.buyQuantity[2]) + parseInt(location.state.order.buyQuantity[3]) + parseInt(location.state.order.buyQuantity[4]); 
     const price = 1;
+
     return (
-        <div>
+        <div class = "row">
             <h1>
-                Payment Entry Page
+                Enter Payment Information
             </h1>
 
-            <h2>
-                Your Current Order:
-                <br />
-                <label>
-                    Cheesecake Danish: {location.state.order.buyQuantity[0]}
-                    <br />
-                    Strawberry Danish: {location.state.order.buyQuantity[1]}
-                    <br />
-                    Apple Danish: {location.state.order.buyQuantity[2]}
-                    <br />
-                    Cherry Danish: {location.state.order.buyQuantity[3]}
-                    <br />
-                    Peach Danish: {location.state.order.buyQuantity[4]}
-                    <br />
-                    Total: $ {sum * price}
-                </label>
-            </h2>
+          <table class="responsive-table">
+        <thead>
+          <tr align="left">
+              <th >Item Name</th>
+              <th>Item Quantity</th>
+          </tr>
+        </thead>
 
-
-            <form onSubmit={handleSubmit}>
-                <label>Credit Card Number:</label>
-                <input
-                    type="text"
-                    required
-                    onChange={
+        <tbody>
+          <tr>
+            <td>Cheesecake Danish</td>
+            <td>{location.state.order.buyQuantity[0]}</td>
+          </tr>
+          <tr>
+            <td>Strawberry Danish</td>
+            <td>{location.state.order.buyQuantity[1]}</td>
+          </tr>
+          <tr>
+            <td>Apple Danish</td>
+            <td>{location.state.order.buyQuantity[2]}</td>
+          </tr>
+          <tr>
+            <td>Cherry Danish</td>
+            <td>{location.state.order.buyQuantity[3]}</td>
+          </tr>
+          <tr>
+            <td>Peach Danish</td>
+            <td>{location.state.order.buyQuantity[4]}</td>
+          </tr>
+        </tbody>
+      </table>
+          <h2>
+            Total = $ {sum * price}
+          </h2>
+          
+            <form class = "col s12"
+                onSubmit={handleSubmit}>
+                <div className="input-field col s6">
+                    <label>Credit Card Number:</label>
+                    <input
+                        type="text"
+                        required
+                        onChange={
                         (e) => {{location.state.order.credit_card_number = e.target.value;}}
-                    }
-                />
-                <br />
-                <label>Expiration Date:</label>
-                <input
-                    type="text"
-                    required
-                    onChange={(e) => {{location.state.order.expir_date = e.target.value;}}}
-                />
-                <br />
+                        }
+                    />
+                </div>
+
+                <div className="input-field col s6">
+                    <label>Expiration Date:</label>
+                    <input
+                        type="text"
+                        required
+                        onChange={
+                            (e) => {{location.state.order.expir_date = e.target.value;}}
+                        }
+                    />
+                </div>
+
+                <div class = "input-field col s12">
                 <label>CVV Code:</label>
                 <input
                     type="text"
                     required
                     onChange={(e) => {{location.state.order.cvvCode = e.target.value;}}}
                 />
-                <br />
+                </div>
+
+                <div className="input-field col s12">
                 <label>Card Holder Name:</label>
                 <input
                     type="text"
                     required
                     onChange={(e) => {{location.state.order.card_holder_name = e.target.value;}}}
                 />
-                <br />
-                
-                <button className="button">Submit Payment</button>
+                </div>
 
-
+               <button class="btn waves-effect waves-light" type="submit" name="action">Submit Payment
+                <i class="material-icons right">send</i>
+              </button>
 
             </form>
         </div>
-    );
-
-
-    
+    )
 };
 
-
-export default PaymentEntry;
+export default paymentEntry;

@@ -54,7 +54,7 @@ export default function App() {
                     <Card.Body>
                         <Card.Title>message for our customers</Card.Title>
                         <Card.Text>
-                            hank you
+                            thank you
                         </Card.Text>
                     </Card.Body>
                 </Card>
