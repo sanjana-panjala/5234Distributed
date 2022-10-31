@@ -1,5 +1,6 @@
 import React from "react";
 import {useNavigate, useLocation} from "react-router-dom";
+import axios from "axios";
 
 const viewOrder = () => {
 
@@ -7,6 +8,27 @@ const viewOrder = () => {
     console.log(location);
     const navigate = useNavigate();
     const handleSubmit = (e) => {
+		const quantities = new Array();
+		const ids = new Array()
+		for (let i = 0; i < location.state.order.buyQuantity.length; i++) {
+			if (location.state.order.buyQuantity[i] > 0) {
+				quantities.push(location.state.order.buyQuantity[i])
+				ids.push(i)
+			}
+		}
+		axios
+			.post('http://localhost:7000/update_quantity', {title: ids, quantity: quantities})
+			.then(() => console.log('Quantity updated'))
+			.catch(err => {
+				console.error(err);
+			})
+		axios
+			.post('http://localhost:7000/add_order', {order: location.state.order})
+			.then(() => console.log('Order added'))
+			.catch(err => {
+				console.error(err);
+			})
+		sessionStorage.removeItem("cart")
         navigate('/purchase/viewConfirmation')
     };
 

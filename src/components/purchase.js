@@ -4,7 +4,7 @@ import data from "bootstrap/js/src/dom/data";
 import axios from "axios";
 
 const purchase = () => {
-    const [order, setOrder] = useState({buyQuantity: [0,0,0,0,0], credit_card_number: '',
+    const [order, setOrder] = useState({buyQuantity: [], credit_card_number: '',
         expir_date: '', cvvCode: '', card_holder_name: '', address_1: '', address_2: '', city: '',
         state: '', zip: '', expedited: false, email: '',});
     const [items, setItems] = useState([]);
@@ -26,10 +26,10 @@ const purchase = () => {
         }).then((data) => {
             console.log(data);
             setItems(data.data)
+            order.buyQuantity = new Array(data.data.length).fill(0)
         });
     }, [])
 
-    const navigate = useNavigate();
     console.log(order)
     return <div className="container">
         <div className="box">

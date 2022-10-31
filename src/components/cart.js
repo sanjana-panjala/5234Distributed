@@ -51,7 +51,7 @@ const Cart = () => {
                                   <p><b>Price: ${item.price}</b></p>
                                   <div className="row">
                                       Quantity:
-                                      <Form.Select onChange={(e) => {order.buyQuantity[item.id - 1] = e.target.value;}}>
+                                      <Form.Select onChange={(e) => {order.buyQuantity[item.id - 1] = parseInt(e.target.value);}}>
                                           {options}
                                       </Form.Select>
                                   </div>

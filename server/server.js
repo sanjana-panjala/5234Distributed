@@ -1,5 +1,6 @@
 const express = require("express");
-const db = require("./db");
+const inventoryDB = require("./InventoryDB");
+const orderDB = require("./OrderDB");
 const app = express();
 const port = 7000;
 const cors = require("cors");
@@ -19,6 +20,13 @@ app.listen(port, () => {
 
 const dropTable = "DROP TABLE IF EXISTS Item"
 const createTable = "CREATE TABLE Item (id int NOT NULL AUTO_INCREMENT, title varchar(255), img varchar(255), price int, quantity int, description varchar(2000), PRIMARY KEY (id) );"
+
+const dropTableOrder = "DROP TABLE IF EXISTS Orders"
+const createTableOrder = "CREATE TABLE Orders (id int NOT NULL AUTO_INCREMENT, buy_quantity varchar(255), " +
+    "credit_card_number varchar(255), expir_date varchar(255), cvvCode varchar(255), card_holder_name varchar(255)," +
+    " address_1 varchar(255), address_2 varchar(255), city varchar(255), state varchar(255), zip varchar(255)," +
+    " expedited BOOL, PRIMARY KEY (id) );"
+
 
 const items = [{id: 1, img: "/Cheesecake-Danish.jpg", title: "Cheesecake Danish", price: "1", quantity: 20,
     description: "This delicious breakfast pastry features a classic flaky Danish pastry crust filled with cream cheese and topped with a drizzle of icing for savory-sweet taste in every bite."},
@@ -45,17 +53,24 @@ app.get("/", function(req, res) {
 })
 
 app.get("/set_table", function(req, res) {
-    db.query(dropTable)
-    db.query(createTable)
+    inventoryDB.query(dropTable)
+    inventoryDB.query(createTable)
+    orderDB.query(dropTableOrder)
+    orderDB.query(createTableOrder)
     for (let i = 0; i < inserts.length; i++) {
-        db.query(inserts[i])
+        inventoryDB.query(inserts[i])
     }
-    const result = db.query("SELECT * FROM Item");
+    const result = inventoryDB.query("SELECT * FROM Item");
     return res.send(result);
 })
 
 app.get("/get_item", function(req, res) {
-    const result = db.query("SELECT * FROM Item");
+    const result = inventoryDB.query("SELECT * FROM Item");
+    return res.send(result);
+})
+
+app.get("/get_order", function(req, res) {
+    const result = orderDB.query("SELECT * FROM Orders");
     return res.send(result);
 })
 
@@ -65,8 +80,28 @@ app.post("/update_quantity", function (req, res) {
 
     IDS.forEach((id, index) => {
         const quan = quantity[index];
-        const result1 = db.query("UPDATE Item SET quantity = " + quan + " WHERE Id = " + id + ";")
+        const result1 = inventoryDB.query("UPDATE Item SET quantity = quantity - " + (quan) + " WHERE id = " + id + ";")
     })
+
+    return res.send('');
+})
+
+app.post("/add_order", function (req, res) {
+    let order = req.body.order;
+
+    orderDB.query("INSERT INTO orders (buy_quantity, credit_card_number, expir_date, cvvCode," +
+        " card_holder_name, address_1, address_2, city, state, zip, expedited) VALUES ("
+        + "'" + order.buyQuantity + "', "
+        + "'" + order.credit_card_number + "', "
+        + "'" + order.expir_date + "', "
+        + "'" + order.cvvCode + "', "
+        + "'" + order.card_holder_name + "', "
+        + "'" + order.address_1 + "', "
+        + "'" + order.address_2 + "', "
+        + "'" + order.city + "', "
+        + "'" + order.state + "', "
+        + "'" + order.zip + "', "
+        + order.expedited + ")")
 
     return res.send('');
 })
