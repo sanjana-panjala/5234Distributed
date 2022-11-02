@@ -4,6 +4,8 @@ const orderDB = require("./OrderDB");
 const app = express();
 const port = 7000;
 const cors = require("cors");
+const axios = require("axios");
+const crypto = require("crypto");
 
 const corsOptions = {
     origin:"*",
@@ -80,7 +82,7 @@ app.post("/update_quantity", function (req, res) {
 
     IDS.forEach((id, index) => {
         const quan = quantity[index];
-        const result1 = inventoryDB.query("UPDATE Item SET quantity = quantity - " + (quan) + " WHERE id = " + id + ";")
+        const result1 = inventoryDB.query("UPDATE Item SET quantity = quantity - " + (quan) + " WHERE id = " + (id+1) + ";")
     })
 
     return res.send('');
@@ -88,7 +90,20 @@ app.post("/update_quantity", function (req, res) {
 
 app.post("/add_order", function (req, res) {
     let order = req.body.order;
-
+    const result = inventoryDB.query("SELECT quantity FROM Item").map(({quantity})=>quantity);
+    console.log(result)
+    console.log(order.buyQuantity)
+    const quantities = new Array();
+    const ids = new Array()
+    for (let i = 0;i<result.length;i++) {
+        if (result[i] < order.buyQuantity[i]) {
+            return res.send('ERROR');
+        }
+        if (order.buyQuantity[i] > 0) {
+            quantities.push(order.buyQuantity[i])
+            ids.push(i)
+        }
+    }
     orderDB.query("INSERT INTO orders (buy_quantity, credit_card_number, expir_date, cvvCode," +
         " card_holder_name, address_1, address_2, city, state, zip, expedited) VALUES ("
         + "'" + order.buyQuantity + "', "
@@ -102,6 +117,12 @@ app.post("/add_order", function (req, res) {
         + "'" + order.state + "', "
         + "'" + order.zip + "', "
         + order.expedited + ")")
+    axios
+        .post('http://localhost:7000/update_quantity', {title: ids, quantity: quantities})
+        .then(() => console.log('Quantity updated'))
+        .catch(err => {
+            console.error(err);
+        })
 
-    return res.send('');
+    return res.send('' + crypto.randomInt(1000000, 10000000));
 })

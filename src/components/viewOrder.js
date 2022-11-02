@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {useNavigate, useLocation} from "react-router-dom";
 import axios from "axios";
 
@@ -7,28 +7,28 @@ const viewOrder = () => {
     const location = useLocation();
     console.log(location);
     const navigate = useNavigate();
-    const handleSubmit = (e) => {
-		const quantities = new Array();
-		const ids = new Array()
-		for (let i = 0; i < location.state.order.buyQuantity.length; i++) {
-			if (location.state.order.buyQuantity[i] > 0) {
-				quantities.push(location.state.order.buyQuantity[i])
-				ids.push(i)
-			}
-		}
-		axios
-			.post('http://localhost:7000/update_quantity', {title: ids, quantity: quantities})
-			.then(() => console.log('Quantity updated'))
-			.catch(err => {
-				console.error(err);
-			})
+	const [items, setItems] = useState([]);
+	useEffect(() => {
+		axios.get("http://localhost:7000/get_item", {
+			params:[]
+		}).then((data) => {
+			console.log(data);
+			setItems(data.data)
+		});
+	}, [])
+
+	let quans = location.state.order.buyQuantity.filter((item) => item > 0)
+	const handleSubmit = (e) => {
 		axios
 			.post('http://localhost:7000/add_order', {order: location.state.order})
-			.then(() => console.log('Order added'))
+			.then(function (response) {
+				sessionStorage.setItem("confirmation", response.data);
+			})
 			.catch(err => {
 				console.error(err);
 			})
 		sessionStorage.removeItem("cart")
+		console.log(sessionStorage.getItem("confirmation"));
         navigate('/purchase/viewConfirmation')
     };
 
@@ -37,21 +37,11 @@ const viewOrder = () => {
 	        	<form onSubmit={handleSubmit}>
 				<ul class="collection" align="left">
 					<li class="collection-header"><h3>Order Details</h3></li>
-                	{ location.state.order.buyQuantity[0] > 0 ? (
-                    	<li class="collection-item">Cheesecake Danish: { location.state.order.buyQuantity[0]}</li>
-                	) : ( null )}
-                	{ location.state.order.buyQuantity[1] > 0 ? (
-                	    <li class="collection-item">Strawberry Danish: { location.state.order.buyQuantity[1]}</li>
-                	) : ( null )}
-                	{ location.state.order.buyQuantity[2] > 0 ? (
-                	    <li class="collection-item">Apple Danish: { location.state.order.buyQuantity[2]}</li>
-                	) : ( null )}
-                	{ location.state.order.buyQuantity[3] > 0 ? (
-                	    <li class="collection-item">Cherry Danish: { location.state.order.buyQuantity[3]}</li>
-                	) : ( null )}
-                	{ location.state.order.buyQuantity[4] > 0 ? (
-                	    <li class="collection-item">Peach Danish: { location.state.order.buyQuantity[4]}</li>
-                	) : ( null )}
+					{items.filter((item, i) => location.state.order.buyQuantity[i] > 0).map((item, i)=>{
+						return(
+						<li className="collection-item">{item.title}: {quans[i]}</li>
+					)
+					})}
 				</ul>
 	            <ul class="collection" align="left">
 					<li class="collection-header"><h3>Payment Information</h3></li>

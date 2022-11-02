@@ -1,19 +1,33 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import purchase from "./purchase"
 import {useNavigate, useLocation} from "react-router-dom";
 import 'materialize-css';
+import axios from "axios";
+import Form from "react-bootstrap/Form";
 
 const paymentEntry = () => {
     const location = useLocation();
     const navigate = useNavigate();
+
+    const [items, setItems] = useState([]);
+    useEffect(() => {
+        axios.get("http://localhost:7000/get_item", {
+            params:[]
+        }).then((data) => {
+            console.log(data);
+            setItems(data.data)
+        });
+    }, [])
 
     const handleSubmit = (e) => {
         navigate('/purchase/viewOrder', {state:{order: location.state.order}}
         )
     };
 
-    const sum = parseInt(location.state.order.buyQuantity[0]) + parseInt(location.state.order.buyQuantity[1]) + parseInt(location.state.order.buyQuantity[2]) + parseInt(location.state.order.buyQuantity[3]) + parseInt(location.state.order.buyQuantity[4]); 
-    const price = 1;
+    let price = 0;
+    items.forEach((item, i) => (price += item.price * location.state.order.buyQuantity[i]))
+
+    let quans = location.state.order.buyQuantity.filter((item) => item > 0)
 
     return (
         <div class = "row">
@@ -30,30 +44,18 @@ const paymentEntry = () => {
         </thead>
 
         <tbody>
-          <tr>
-            <td>Cheesecake Danish</td>
-            <td>{location.state.order.buyQuantity[0]}</td>
-          </tr>
-          <tr>
-            <td>Strawberry Danish</td>
-            <td>{location.state.order.buyQuantity[1]}</td>
-          </tr>
-          <tr>
-            <td>Apple Danish</td>
-            <td>{location.state.order.buyQuantity[2]}</td>
-          </tr>
-          <tr>
-            <td>Cherry Danish</td>
-            <td>{location.state.order.buyQuantity[3]}</td>
-          </tr>
-          <tr>
-            <td>Peach Danish</td>
-            <td>{location.state.order.buyQuantity[4]}</td>
-          </tr>
+            {items.filter((item, i) => location.state.order.buyQuantity[i] > 0).map((item, i)=>{
+                return(
+                    <tr>
+                        <td>{item.title}</td>
+                        <td>{quans[i]}</td>
+                    </tr>
+                )
+            })}
         </tbody>
       </table>
           <h2>
-            Total = $ {sum * price}
+            Total = ${price}
           </h2>
           
             <form class = "col s12"
