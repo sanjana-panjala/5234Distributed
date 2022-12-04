@@ -27,7 +27,7 @@ const dropTableOrder = "DROP TABLE IF EXISTS Orders"
 const createTableOrder = "CREATE TABLE Orders (id int NOT NULL AUTO_INCREMENT, buy_quantity varchar(255), " +
     "credit_card_number varchar(255), expir_date varchar(255), cvvCode varchar(255), card_holder_name varchar(255)," +
     " address_1 varchar(255), address_2 varchar(255), city varchar(255), state varchar(255), zip varchar(255)," +
-    " expedited BOOL, PRIMARY KEY (id) );"
+    " expedited BOOL, confirmationNum varchar(2000), PRIMARY KEY (id) );"
 
 
 const items = [{id: 1, img: "/Cheesecake-Danish.jpg", title: "Cheesecake Danish", price: "1", quantity: 20,
@@ -47,9 +47,7 @@ items.forEach(function (item, index) {
         + "'" + item.img + "', "
         + "'" + item.description + "')")
 });
-console.log(inserts[0])
-console.log(dropTable)
-console.log(createTable)
+
 app.get("/", function(req, res) {
     res.send("Hello World!")
 })
@@ -91,8 +89,6 @@ app.post("/update_quantity", function (req, res) {
 app.post("/add_order", function (req, res) {
     let order = req.body.order;
     const result = inventoryDB.query("SELECT quantity FROM Item").map(({quantity})=>quantity);
-    console.log(result)
-    console.log(order.buyQuantity)
     const quantities = new Array();
     const ids = new Array()
     for (let i = 0;i<result.length;i++) {
@@ -104,25 +100,44 @@ app.post("/add_order", function (req, res) {
             ids.push(i)
         }
     }
-    orderDB.query("INSERT INTO orders (buy_quantity, credit_card_number, expir_date, cvvCode," +
-        " card_holder_name, address_1, address_2, city, state, zip, expedited) VALUES ("
-        + "'" + order.buyQuantity + "', "
-        + "'" + order.credit_card_number + "', "
-        + "'" + order.expir_date + "', "
-        + "'" + order.cvvCode + "', "
-        + "'" + order.card_holder_name + "', "
-        + "'" + order.address_1 + "', "
-        + "'" + order.address_2 + "', "
-        + "'" + order.city + "', "
-        + "'" + order.state + "', "
-        + "'" + order.zip + "', "
-        + order.expedited + ")")
     axios
-        .post('http://localhost:7000/update_quantity', {title: ids, quantity: quantities})
-        .then(() => console.log('Quantity updated'))
+        .post('http://localhost:7001/execute_order', {
+            businessName: "Distributed Danishes",
+            businessNum: 123456789,
+            custInfo: {
+                name: order.card_holder_name,
+                credit_card_number: order.credit_card_number,
+                expir_date: order.expir_date,
+                cvvCode: order.cvvCode
+            }})
+        .then((data) => {
+            orderDB.query("INSERT INTO orders (buy_quantity, credit_card_number, expir_date, cvvCode," +
+                " card_holder_name, address_1, address_2, city, state, zip, expedited, confirmationNum) VALUES ("
+                + "'" + order.buyQuantity + "', "
+                + "'" + order.credit_card_number + "', "
+                + "'" + order.expir_date + "', "
+                + "'" + order.cvvCode + "', "
+                + "'" + order.card_holder_name + "', "
+                + "'" + order.address_1 + "', "
+                + "'" + order.address_2 + "', "
+                + "'" + order.city + "', "
+                + "'" + order.state + "', "
+                + "'" + order.zip + "', "
+                + order.expedited + ", "
+                + "'" + data.data + "')")
+            axios
+                .post('http://localhost:7000/update_quantity', {title: ids, quantity: quantities})
+                .then(() => console.log('Quantity updated'))
+                .catch(err => {
+                    console.error(err);
+                })
+            return res.send(""+data.data);
+        })
         .catch(err => {
             console.error(err);
         })
+    axios.get('http://localhost:7001/init_shipping', {
+        params:["Distributed Danishes"]
+    })
 
-    return res.send('' + crypto.randomInt(1000000, 10000000));
 })
