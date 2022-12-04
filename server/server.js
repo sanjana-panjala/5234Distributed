@@ -27,7 +27,7 @@ const dropTableOrder = "DROP TABLE IF EXISTS Orders"
 const createTableOrder = "CREATE TABLE Orders (id int NOT NULL AUTO_INCREMENT, buy_quantity varchar(255), " +
     "credit_card_number varchar(255), expir_date varchar(255), cvvCode varchar(255), card_holder_name varchar(255)," +
     " address_1 varchar(255), address_2 varchar(255), city varchar(255), state varchar(255), zip varchar(255)," +
-    " expedited BOOL, confirmationNum varchar(2000), PRIMARY KEY (id) );"
+    " expedited BOOL, confirmationNum varchar(2000), processed BOOL, PRIMARY KEY (id) );"
 
 
 const items = [{id: 1, img: "/Cheesecake-Danish.jpg", title: "Cheesecake Danish", price: "1", quantity: 20,
@@ -74,6 +74,25 @@ app.get("/get_order", function(req, res) {
     return res.send(result);
 })
 
+app.post("/execute_batch", function(req, res)
+{
+    var now = new Date();
+    var millisTill10 = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 22, 0, 0, 0) - now;
+    if (millisTill10 < 0) {
+        millisTill10 += 86400000;
+    }
+    setTimeout(
+        axios
+            .post('http://localhost:7000/batch_update')
+            .then(() => console.log('Batch Process Started'))
+            .catch(err => {
+                console.error(err);
+            })
+        , millisTill10);
+
+})
+
+
 app.post("/update_quantity", function (req, res) {
     let IDS = req.body.title;
     let quantity = req.body.quantity;
@@ -84,6 +103,37 @@ app.post("/update_quantity", function (req, res) {
     })
 
     return res.send('');
+})
+
+app.get("/batch_update", function (req, res) {
+    const result = orderDB.query("SELECT * FROM Orders WHERE processed = 0;")
+
+
+
+    result.forEach((order, index) => {
+        const quantities = new Array();
+        const ids = new Array()
+        const idn = order.buy_quantity.split(",").map(Number)
+        for (let i = 0;i<idn.length;i++) {
+            if (idn[i] > 0) {
+                quantities.push(idn[i])
+                ids.push(i)
+            }
+        }
+
+        axios
+            .post('http://localhost:7000/update_quantity', {title: ids, quantity: quantities})
+            .then(() => console.log('Quantity updated'))
+            .catch(err => {
+                console.error(err);
+            })
+
+
+        orderDB.query("UPDATE orders SET processed = 1 WHERE id =" +  (order.id)+ ";")
+
+    })
+
+    return res.send(result);
 })
 
 app.post("/add_order", function (req, res) {
@@ -112,7 +162,7 @@ app.post("/add_order", function (req, res) {
             }})
         .then((data) => {
             orderDB.query("INSERT INTO orders (buy_quantity, credit_card_number, expir_date, cvvCode," +
-                " card_holder_name, address_1, address_2, city, state, zip, expedited, confirmationNum) VALUES ("
+                " card_holder_name, address_1, address_2, city, state, zip, expedited, confirmationNum, processed) VALUES ("
                 + "'" + order.buyQuantity + "', "
                 + "'" + order.credit_card_number + "', "
                 + "'" + order.expir_date + "', "
@@ -124,7 +174,8 @@ app.post("/add_order", function (req, res) {
                 + "'" + order.state + "', "
                 + "'" + order.zip + "', "
                 + order.expedited + ", "
-                + "'" + data.data + "')")
+                + "'" + data.data + "',"
+                + false + ")")
             axios
                 .post('http://localhost:7000/update_quantity', {title: ids, quantity: quantities})
                 .then(() => console.log('Quantity updated'))
