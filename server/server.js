@@ -74,7 +74,7 @@ app.get("/get_order", function(req, res) {
     return res.send(result);
 })
 
-app.post("/execute_batch", function(req, res)
+app.get("/execute_batch", function(req, res)
 {
     var now = new Date();
     var millisTill10 = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 22, 0, 0, 0) - now;
